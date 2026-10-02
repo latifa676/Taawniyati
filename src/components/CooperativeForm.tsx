@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 
-const whatsappNumber = "212613133368";
+const whatsappNumber = "212701276075";
 
 const cities = [
   "الرباط",
