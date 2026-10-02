@@ -1,0 +1,10 @@
+{
+  "description": "This interactive web application delivers a seamless user experience with responsive design and engaging animations, ideal for businesses seeking to enhance online engagement.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

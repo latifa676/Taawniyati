@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,800;1,400&display=swap');
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Noto Sans Math:Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://static.figma.com/font/NotoSansMath-Regular_1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Noto Sans Symbols2:Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://static.figma.com/font/NotoSansSymbols2-Regular_5') format('woff2');
+}
+
+@font-face {
+  font-family: 'Noto Sans Symbols:Black';
+  font-style: normal;
+  font-weight: 900;
+  src: url('https://static.figma.com/font/NotoSansSymbols-VF_2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Noto Sans:Black';
+  font-style: normal;
+  font-weight: 900;
+  src: url('https://static.figma.com/font/NotoSans-VF_3') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zain:ExtraBold';
+  font-style: normal;
+  font-weight: 800;
+  src: url('https://static.figma.com/font/Zain-ExtraBold_2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zain:Italic';
+  font-style: italic;
+  font-weight: 400;
+  src: url('https://static.figma.com/font/Zain-Italic_1') format('woff2');
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
