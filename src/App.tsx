@@ -2,20 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import CooperativeForm from "./components/CooperativeForm";
 
-const assetPathPrefix = "/assets";
+const assetPathPrefix = "/assets/webp";
 const contactFormHref = "#contact-form";
-const imgLogo = `${assetPathPrefix}/c8ef2.png`;
-const imgService1 = `${assetPathPrefix}/e71ce.png`;
-const imgService2 = `${assetPathPrefix}/6b196.png`;
-const imgService3 = `${assetPathPrefix}/957cc.png`;
-const imgService4 = `${assetPathPrefix}/7bb54.png`;
-const imgProb1 = `${assetPathPrefix}/26db6.png`;
-const imgProb2 = `${assetPathPrefix}/4ef66.png`;
-const imgProb3 = `${assetPathPrefix}/18d77.png`;
-const imgProb4 = `${assetPathPrefix}/40079.png`;
-const imgHeroLeft1 = `${assetPathPrefix}/3eca1.png`;
-const imgHeroLeft2 = `${assetPathPrefix}/b22a0.png`;
-const imgHeroLeft3 = `${assetPathPrefix}/a7498.png`;
+const imgLogo = `${assetPathPrefix}/c8ef2.webp`;
+const imgService1 = `${assetPathPrefix}/e71ce.webp`;
+const imgService2 = `${assetPathPrefix}/6b196.webp`;
+const imgService3 = `${assetPathPrefix}/957cc.webp`;
+const imgService4 = `${assetPathPrefix}/7bb54.webp`;
+const imgProb1 = `${assetPathPrefix}/26db6.webp`;
+const imgProb2 = `${assetPathPrefix}/4ef66.webp`;
+const imgProb3 = `${assetPathPrefix}/18d77.webp`;
+const imgProb4 = `${assetPathPrefix}/40079.webp`;
+const imgHeroLeft1 = `${assetPathPrefix}/3eca1.webp`;
+const imgHeroLeft2 = `${assetPathPrefix}/b22a0.webp`;
+const imgHeroLeft3 = `${assetPathPrefix}/a7498.webp`;
 
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -99,6 +99,10 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
   return <Reveal from="up" delay={delay} className={className}>{children}</Reveal>;
 }
 
+function LazyImage({ eager = false, ...props }: React.ImgHTMLAttributes<HTMLImageElement> & { eager?: boolean }) {
+  return <img {...props} loading={eager ? "eager" : "lazy"} decoding="async" />;
+}
+
 export default function App() {
   const scrolled = useScrolled();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -157,7 +161,7 @@ export default function App() {
 
           {/* Logo */}
           <div className="relative w-[120px] h-[56px] md:w-[180px] md:h-[72px] shrink-0 overflow-hidden">
-            <img src={imgLogo} alt="تعاونيتي" className="absolute inset-0 w-full h-full object-cover" />
+            <LazyImage eager src={imgLogo} alt="تعاونيتي" className="absolute inset-0 w-full h-full object-cover" />
           </div>
 
           {/* Mobile hamburger */}
@@ -211,7 +215,8 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.25 }}
               className="absolute left-[37%] top-0 h-[270px] w-[170px] sm:left-[32%] sm:h-[280px] sm:w-[170px]  md:left-[32%] md:h-[300px] md:w-[180px] lg:left-[35%] lg:h-[330px] lg:w-[200px]"
             >
-              <img
+              <LazyImage
+                eager
                 src={imgHeroLeft2}
                 alt=""
                 className="w-full h-full object-cover rounded-tl-[130px] rounded-tr-[130px] rounded-br-[80px] shadow-2xl"
@@ -225,7 +230,8 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.45 }}
               className="absolute left-[20%] top-[280px] h-[180px] w-[180px] sm:left-[26%] sm:top-[285px] sm:h-[180px] sm:w-[180px] lg:top-[340px] lg:h-[200px] lg:w-[200px]"
             >
-              <img
+              <LazyImage
+                eager
                 src={imgHeroLeft1}
                 alt=""
                 className="w-full h-full object-cover rounded-tl-[130px] rounded-tr-[130px] rounded-br-[130px] shadow-2xl"
@@ -239,7 +245,8 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="absolute left-[0.1%] top-[35px] h-[240px] w-[135px] sm:left-[2%] sm:top-[60px] sm:h-[240px] sm:w-[150px] lg:top-[80px] lg:h-[260px] lg:w-[160px]"
             >
-              <img
+              <LazyImage
+                eager
                 src={imgHeroLeft3}
                 alt=""
                 className="w-full h-full object-cover rounded-tl-[130px] rounded-tr-[130px] rounded-bl-[80px] shadow-2xl"
@@ -320,7 +327,7 @@ export default function App() {
             ].map((card, i) => (
               <StaggerItem key={i}>
                 <div className="bg-white border border-[#e2dcef] rounded-[16px] shadow-[0px_8px_14px_rgba(0,0,0,0.18)] h-[250px] flex flex-col items-center justify-center gap-5 transition-all duration-300 hover:shadow-[0px_16px_28px_rgba(0,0,0,0.22)] hover:scale-[1.02] cursor-pointer">
-                  <img src={card.img} alt="" className={`${card.size} object-contain`} />
+                  <LazyImage src={card.img} alt="" className={`${card.size} object-contain`} />
                   <p className="font-['Zain:ExtraBold'] text-[#1d1330] text-[20px] md:text-[22px] text-center px-4 leading-snug">
                     {card.label}
                   </p>
@@ -413,7 +420,7 @@ export default function App() {
               <StaggerItem key={i}>
                 <div className="bg-white border border-[#e7e0f2] rounded-[20px] shadow-[0px_8px_14px_rgba(0,0,0,0.18)] p-6 flex flex-col items-center gap-4 h-[340px] transition-all duration-300 hover:shadow-[0px_16px_28px_rgba(0,0,0,0.22)] hover:scale-[1.02] cursor-pointer">
                   <div className="flex items-center justify-center h-[160px]">
-                    <img src={card.img} alt="" className={`${card.imgSize} object-contain`} />
+                    <LazyImage src={card.img} alt="" className={`${card.imgSize} object-contain`} />
                   </div>
                   <div className="flex flex-col gap-3 items-center justify-center">
                     <p className="font-['Zain:ExtraBold'] text-[#45238f] text-[20px] md:text-[22px] leading-[1.3]">
@@ -553,7 +560,7 @@ export default function App() {
             </div>
              {/* Brand */}
             <div className="relative w-full lg:w-[360px] flex flex-col items-right">
-              <img src={imgLogo} alt="تعاونيتي" className="w-[180px] h-[100px] object-cover " />
+              <LazyImage eager src={imgLogo} alt="تعاونيتي" className="w-[180px] h-[100px] object-cover " />
               <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] leading-[1.5] text-right max-w-[360px]">
                 منصة وخدمة وطنية ملتزمة بتأطير وتحديث تعاونيات الإنتاج الحرفي والغذائي في المغرب لتقديم قيمة أصيلة تليق بالمستهلك المغربي والعالمي.
               </p>
