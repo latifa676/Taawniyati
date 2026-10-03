@@ -1,5 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,800;1,400&display=swap');
 @import 'tailwindcss';
+
+.font-ibm-plex-arabic {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-weight: 600;
+}
+
+.font-zain-title {
+  font-family: 'Zain', sans-serif;
+  font-weight: 800;
+}
 
 @font-face {
   font-family: 'Noto Sans Math:Regular';
@@ -29,21 +40,8 @@
   src: url('https://static.figma.com/font/NotoSans-VF_3') format('woff2');
 }
 
-@font-face {
-  font-family: 'Zain:ExtraBold';
-  font-style: normal;
-  font-weight: 800;
-  src: url('https://static.figma.com/font/Zain-ExtraBold_2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Zain:Italic';
-  font-style: italic;
-  font-weight: 400;
-  src: url('https://static.figma.com/font/Zain-Italic_1') format('woff2');
-}
-
 html {
   direction: rtl;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   scroll-behavior: smooth;
 }

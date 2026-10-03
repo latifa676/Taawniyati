@@ -106,9 +106,20 @@ function LazyImage({ eager = false, ...props }: React.ImgHTMLAttributes<HTMLImag
 export default function App() {
   const scrolled = useScrolled();
   const [menuOpen, setMenuOpen] = useState(false);
+  const pendingMobileNavigation = useRef<HTMLElement | null>(null);
   const heroRef = useRef(null);
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroBgY = useTransform(heroScroll, [0, 1], ["0%", "25%"]);
+
+  function handleNavClick(event: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
+
+    event.preventDefault();
+    pendingMobileNavigation.current = target;
+    window.history.pushState(null, "", href);
+    setMenuOpen(false);
+  }
 
   const navLinks = [
     { label: "الرئيسية", href: "#home" },
@@ -135,13 +146,13 @@ export default function App() {
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
           <a
             href={contactFormHref}
-            className="bg-[#45238f] text-white px-6 py-2 rounded-[25px] text-[18px] font-['Zain:ExtraBold'] whitespace-nowrap transition-all duration-200 hover:scale-105 hover:bg-[#5a2fb5] active:scale-95"
+            className="bg-[#45238f] text-white px-3 py-1 text-[14px] sm:px-6 sm:py-2 sm:text-[18px] rounded-[25px] font-ibm-plex-arabic whitespace-nowrap transition-all duration-200 hover:scale-105 hover:bg-[#5a2fb5] active:scale-95"
           >
             إحجز إستشارتك الآن
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-7 text-[16px] font-['Zain:ExtraBold']">
+          <nav className="hidden lg:flex items-center gap-7 text-[16px] font-ibm-plex-arabic">
             {navLinks.map((link, i) => (
               <span key={i} className="flex items-center">
                 <a
@@ -177,7 +188,13 @@ export default function App() {
         </div>
 
         {/* Mobile menu */}
-        <AnimatePresence>
+        <AnimatePresence
+          onExitComplete={() => {
+            const target = pendingMobileNavigation.current;
+            pendingMobileNavigation.current = null;
+            target?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+        >
           {menuOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
@@ -190,8 +207,8 @@ export default function App() {
                   <a
                     key={i}
                     href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`text-[18px] font-['Zain:ExtraBold'] py-1 border-b border-[#f0edf8] ${link.label === "رحلة النمو" ? "text-[#caa320]" : "text-[#333]"}`}
+                    onClick={(event) => handleNavClick(event, link.href)}
+                    className={`text-[18px] font-ibm-plex-arabic py-1 border-b border-[#f0edf8] ${link.label === "رحلة النمو" ? "text-[#caa320]" : "text-[#333]"}`}
                   >
                     {link.label}
                   </a>
@@ -218,7 +235,7 @@ export default function App() {
               <LazyImage
                 eager
                 src={imgHeroLeft2}
-                alt=""
+                alt="جرة عسل مغربي"
                 className="w-full h-full object-cover rounded-tl-[130px] rounded-tr-[130px] rounded-br-[80px] shadow-2xl"
               />
             </motion.div>
@@ -233,7 +250,7 @@ export default function App() {
               <LazyImage
                 eager
                 src={imgHeroLeft1}
-                alt=""
+                alt="قوارير زيت الأركان"
                 className="w-full h-full object-cover rounded-tl-[130px] rounded-tr-[130px] rounded-br-[130px] shadow-2xl"
               />
             </motion.div>
@@ -248,7 +265,7 @@ export default function App() {
               <LazyImage
                 eager
                 src={imgHeroLeft3}
-                alt=""
+                alt="منتجات الزعفران المغربي"
                 className="w-full h-full object-cover rounded-tl-[130px] rounded-tr-[130px] rounded-bl-[80px] shadow-2xl"
               />
             </motion.div>
@@ -260,7 +277,7 @@ export default function App() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-['Zain:ExtraBold'] text-[#caa320] text-[18px]"
+              className="font-ibm-plex-arabic text-[#caa320] text-[18px]"
             >
               تعاونيتي
             </motion.p>
@@ -269,7 +286,7 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-['Zain:ExtraBold'] text-[#1f1f1f] text-[40px] md:text-[52px] lg:text-[52px] leading-[1.35]"
+              className="font-zain-title text-[#1f1f1f] text-[40px] md:text-[52px] lg:text-[52px] leading-[1.35]"
             >
               من تعاونية محلية إلى{" "}
               <span className="text-[#45238f]">علامة تجارية</span>{" "}
@@ -280,7 +297,7 @@ export default function App() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.35 }}
-              className="font-['Zain:ExtraBold'] text-[#5e5274] text-[17px] md:text-[15px] leading-[1.7] max-w-[500px] mr-0 ml-auto lg:ml-0"
+              className="font-ibm-plex-arabic text-[#5e5274] text-[17px] md:text-[15px] leading-[1.7] max-w-[500px] mr-0 ml-auto lg:ml-0"
             >
               نساعد التعاونيات المغربية على تطوير حضورها الرقمي،
               الوصول لزبناء جدد وتحويل منتجاتها المحلية إلى فرص بيع حقيقية.
@@ -293,11 +310,11 @@ export default function App() {
               className="flex flex-wrap gap-4 justify-start"
             >
               {/* Primary CTA */}
-              <a href={contactFormHref} className="inline-flex items-center justify-center bg-[#caa320] text-white px-8 py-3.5 rounded-[100px] text-[18px] font-['Zain:ExtraBold'] shadow-md transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95">
+              <a href={contactFormHref} className="inline-flex items-center justify-center bg-[#caa320] text-white px-8 py-3.5 rounded-[100px] text-[18px] font-ibm-plex-arabic shadow-md transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95">
                 طوّر تعاونيتك الآن
               </a>
               {/* Ghost CTA */}
-              <a href={contactFormHref} className="inline-flex items-center justify-center border-[1.5px] border-[#45238f] text-[#45238f] bg-transparent px-8 py-3.5 rounded-[100px] text-[18px] font-['Zain:ExtraBold'] transition-all duration-200 hover:scale-105 hover:bg-[#45238f]/6 active:scale-95">
+              <a href={contactFormHref} className="inline-flex items-center justify-center border-[1.5px] border-[#45238f] text-[#45238f] bg-transparent px-8 py-3.5 rounded-[100px] text-[18px] font-ibm-plex-arabic transition-all duration-200 hover:scale-105 hover:bg-[#45238f]/6 active:scale-95">
                 اكتشف كيف نساعدك
               </a>
             </motion.div>
@@ -310,10 +327,10 @@ export default function App() {
       <section id="challenges" className="scroll-mt-28 bg-[rgba(245,241,233,0.29)] px-6 py-20">
         <div className="max-w-[1440px] mx-auto">
           <FadeUp className="text-center mb-12">
-            <h2 className="font-['Zain:ExtraBold'] text-[#45238f] text-[32px] md:text-[40px] mb-3">
+            <h2 className="font-zain-title text-[#45238f] text-[32px] md:text-[40px] mb-3">
               منتجك رائع، لكن هل يصل إلى الناس؟
             </h2>
-            <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[16px] md:text-[18px] max-w-[800px] mx-auto leading-relaxed">
+            <p className="font-ibm-plex-arabic text-[#5e5274] text-[16px] md:text-[18px] max-w-[800px] mx-auto leading-relaxed">
               جودة المنتج المغربي التقليدي فريدة من نوعها، ولكنها تحتاج إلى الحضور المناسب على الشاشات الحديثة لتتحول لمبيعات مستمرة.
             </p>
           </FadeUp>
@@ -328,7 +345,7 @@ export default function App() {
               <StaggerItem key={i}>
                 <div className="bg-white border border-[#e2dcef] rounded-[16px] shadow-[0px_8px_14px_rgba(0,0,0,0.18)] h-[250px] flex flex-col items-center justify-center gap-5 transition-all duration-300 hover:shadow-[0px_16px_28px_rgba(0,0,0,0.22)] hover:scale-[1.02] cursor-pointer">
                   <LazyImage src={card.img} alt="" className={`${card.size} object-contain`} />
-                  <p className="font-['Zain:ExtraBold'] text-[#1d1330] text-[20px] md:text-[22px] text-center px-4 leading-snug">
+                  <p className="font-ibm-plex-arabic text-[#1d1330] text-[20px] md:text-[22px] text-center px-4 leading-snug">
                     {card.label}
                   </p>
                 </div>
@@ -352,10 +369,10 @@ export default function App() {
               ].map((card, i) => (
                 <StaggerItem key={i}>
                   <div className="bg-[#6b50b0] rounded-[16px] p-7 flex flex-col gap-3 items-start h-full transition-all duration-300 hover:shadow-[0px_12px_28px_rgba(107,80,176,0.3)] hover:scale-[1.02] cursor-pointer">
-                    <p className="font-['Zain:ExtraBold'] text-[#caa320] text-[18px] md:text-[20px] whitespace-nowrap">
+                    <p className="font-ibm-plex-arabic text-[#caa320] text-[18px] md:text-[20px] whitespace-nowrap">
                       {card.title}
                     </p>
-                    <p className="font-['Zain:ExtraBold'] text-[#faf8ff] text-[14px] md:text-[15px] leading-[1.5] text-right">
+                    <p className="font-ibm-plex-arabic text-[#faf8ff] text-[14px] md:text-[15px] leading-[1.5] text-right">
                       {card.body}
                     </p>
                   </div>
@@ -366,13 +383,13 @@ export default function App() {
 
           {/* Text block */}
           <Reveal from="right" delay={0.1} className="w-full lg:w-[40%] flex flex-col gap-6 items-start pt-4">
-            <p className="font-['Zain:ExtraBold'] text-[#caa320] text-[18px] whitespace-nowrap">
+            <p className="font-ibm-plex-arabic text-[#caa320] text-[18px] whitespace-nowrap">
               النقلة والتحول الرقمي
             </p>
-            <h2 className="font-['Zain:ExtraBold'] text-[#45238f] text-[32px] md:text-[40px] leading-[1.2] text-right">
+            <h2 className="font-zain-title text-[#45238f] text-[32px] md:text-[40px] leading-[1.2] text-right">
               ماذا يتغير عندما تتمتع تعاونيتك بحضور رقمي احترافي؟
             </h2>
-            <p className="font-['Zain:ExtraBold'] text-[#745ead] text-[16px] md:text-[18px] leading-[1.5] text-right opacity-80">
+            <p className="font-ibm-plex-arabic text-[#745ead] text-[16px] md:text-[18px] leading-[1.5] text-right opacity-80">
               التحول الرقمي ليس مجرد رفاهية، بل هو شريان الحياة الجديد لتعاونيات الإنتاج الحرفي والغذائي المغربي للاستمرار والازدهار والنمو العادل.
             </p>
           </Reveal>
@@ -383,13 +400,13 @@ export default function App() {
       <section id="solutions" className="scroll-mt-28 bg-white px-6 py-20">
         <div className="max-w-[1440px] mx-auto">
           <FadeUp className="text-center mb-14 flex flex-col gap-4 items-center">
-            <p className="font-['Zain:ExtraBold'] text-[#caa320] text-[40px] md:text-[48px] tracking-[1.92px]">
+            <p className="font-zain-title text-[#caa320] text-[40px] md:text-[48px] tracking-[1.92px]">
               خدماتنا
             </p>
-            <h2 className="font-['Zain:ExtraBold'] text-[#45238f] text-[32px] md:text-[48px] leading-[1.2] max-w-[800px]">
+            <h2 className="font-zain-title text-[#45238f] text-[32px] md:text-[48px] leading-[1.2] max-w-[800px]">
               كل ما تحتاجه تعاونيتك لتنمو في العالم الرقمي
             </h2>
-            <p className="font-['Zain:ExtraBold'] text-[rgba(69,35,143,0.31)] text-[16px] md:text-[18px] max-w-[850px] leading-[1.6]">
+            <p className="font-ibm-plex-arabic text-[rgba(69,35,143,0.31)] text-[16px] md:text-[18px] max-w-[850px] leading-[1.6]">
               نرافق تعاونيتك من بناء هويتها الرقمية إلى الوصول إلى زبناء جدد، ونساعدك على تقديم منتجاتك بشكل احترافي وتطوير حضورك الرقمي.
             </p>
           </FadeUp>
@@ -423,10 +440,10 @@ export default function App() {
                     <LazyImage src={card.img} alt="" className={`${card.imgSize} object-contain`} />
                   </div>
                   <div className="flex flex-col gap-3 items-center justify-center">
-                    <p className="font-['Zain:ExtraBold'] text-[#45238f] text-[20px] md:text-[22px] leading-[1.3]">
+                    <p className="font-ibm-plex-arabic text-[#45238f] text-[20px] md:text-[22px] leading-[1.3]">
                       {card.title}
                     </p>
-                    <p className="font-['Zain:ExtraBold'] text-[rgba(69,35,143,0.31)] text-[14px] md:text-[15px] leading-[1.6] ">
+                    <p className="font-ibm-plex-arabic text-[rgba(69,35,143,0.31)] text-[14px] md:text-[15px] leading-[1.6] ">
                       {card.body}
                     </p>
                   </div>
@@ -436,7 +453,7 @@ export default function App() {
           </StaggerGroup>
 
           <FadeUp className="flex justify-center">
-            <a href={contactFormHref} className="inline-flex items-center justify-center bg-[#d597e5] text-white px-10 py-3.5 rounded-[25px] text-[18px] md:text-[20px] font-['Zain:ExtraBold'] font-black transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95">
+            <a href={contactFormHref} className="inline-flex items-center justify-center bg-[#d597e5] text-white px-10 py-3.5 rounded-[25px] text-[18px] md:text-[20px] font-ibm-plex-arabic font-black transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95">
               لنطوّر تعاونيتك معاً ←
             </a>
           </FadeUp>
@@ -447,13 +464,13 @@ export default function App() {
       <section id="growth" className="scroll-mt-28 bg-[#f5f1e9] px-6 py-20">
         <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
           <FadeUp className="flex flex-col gap-3 items-start">
-            <p className="font-['Zain:ExtraBold'] text-[#45238f] text-[18px] whitespace-nowrap">
+            <p className="font-ibm-plex-arabic text-[#45238f] text-[18px] whitespace-nowrap">
               مسار العمل الممنهج
             </p>
-            <h2 className="font-['Zain:ExtraBold'] text-[#1d1330] text-[32px] md:text-[40px] text-right">
+            <h2 className="font-zain-title text-[#1d1330] text-[32px] md:text-[40px] text-right">
               من الفكرة إلى النمو المستدام، خطوة بخطوة.
             </h2>
-            <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[16px] md:text-[18px] text-right max-w-[800px]">
+            <p className="font-ibm-plex-arabic text-[#5e5274] text-[16px] md:text-[18px] text-right max-w-[800px]">
               منهجية علمية واضحة ومترابطة تضمن مرافقة حقيقية ونجاحاً ملموساً على أرض الواقع الرقمي.
             </p>
           </FadeUp>
@@ -467,8 +484,8 @@ export default function App() {
               ].map((step, i) => (
                 <StaggerItem key={i}>
                   <div className="bg-white rounded-[16px] p-7 flex flex-col gap-3 items-start h-full transition-all duration-300 hover:shadow-[0px_8px_20px_rgba(0,0,0,0.12)] cursor-pointer">
-                    <p className="font-['Zain:ExtraBold'] text-[#caa320] text-[17px] whitespace-nowrap">{step.num}</p>
-                    <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] text-right leading-[1.6]">{step.body}</p>
+                    <p className="font-ibm-plex-arabic text-[#caa320] text-[17px] whitespace-nowrap">{step.num}</p>
+                    <p className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] text-right leading-[1.6]">{step.body}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -481,8 +498,8 @@ export default function App() {
               ].map((step, i) => (
                 <StaggerItem key={i}>
                   <div className="bg-white rounded-[16px] p-7 flex flex-col gap-3 items-start h-full transition-all duration-300 hover:shadow-[0px_8px_20px_rgba(0,0,0,0.12)] cursor-pointer">
-                    <p className="font-['Zain:ExtraBold'] text-[#caa320] text-[17px] whitespace-nowrap">{step.num}</p>
-                    <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] text-right leading-[1.6]">{step.body}</p>
+                    <p className="font-ibm-plex-arabic text-[#caa320] text-[17px] whitespace-nowrap">{step.num}</p>
+                    <p className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] text-right leading-[1.6]">{step.body}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -495,13 +512,13 @@ export default function App() {
       <section id="process" className="scroll-mt-28 bg-white px-6 py-20">
         <div className="max-w-[1440px] mx-auto flex flex-col gap-14 items-center">
           <FadeUp className="flex flex-col gap-3 items-center text-center max-w-[700px]">
-            <p className="font-['Zain:ExtraBold'] text-[#caa320] text-[18px] whitespace-nowrap">
+            <p className="font-ibm-plex-arabic text-[#caa320] text-[18px] whitespace-nowrap">
               خطوات البداية
             </p>
-            <h2 className="font-['Zain:ExtraBold'] text-[#45238f] text-[32px] md:text-[40px]">
+            <h2 className="font-zain-title text-[#45238f] text-[32px] md:text-[40px]">
               كيف نبدأ معاً؟
             </h2>
-            <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[16px] md:text-[18px] leading-relaxed">
+            <p className="font-ibm-plex-arabic text-[#5e5274] text-[16px] md:text-[18px] leading-relaxed">
               بخطوات مبسطة واضحة ومسار منظم لدعم تعاونيتك من مرحلة الاستماع إلى التنفيذ العملي.
             </p>
           </FadeUp>
@@ -514,15 +531,15 @@ export default function App() {
             ].map((card, i) => (
               <StaggerItem key={i}>
                 <div className="bg-[#fcfaf6] border border-[#e2dcef] rounded-[20px] p-9 flex flex-col gap-4 items-start min-h-[200px] h-full transition-all duration-300 hover:shadow-[0px_10px_24px_rgba(0,0,0,0.12)] hover:scale-[1.02] cursor-pointer">
-                  <p className="font-['Zain:ExtraBold'] text-[#45238f] text-[20px] md:text-[24px] whitespace-nowrap">{card.num}</p>
-                  <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] text-right leading-[1.5]">{card.body}</p>
+                  <p className="font-ibm-plex-arabic text-[#45238f] text-[20px] md:text-[24px] whitespace-nowrap">{card.num}</p>
+                  <p className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] text-right leading-[1.5]">{card.body}</p>
                 </div>
               </StaggerItem>
             ))}
           </StaggerGroup>
 
           <FadeUp>
-            <a href={contactFormHref} className="inline-flex items-center justify-center bg-[#caa320] text-white px-8 py-3.5 rounded-[100px] text-[18px] font-['Zain:ExtraBold'] mt-4 transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95">
+            <a href={contactFormHref} className="inline-flex items-center justify-center bg-[#caa320] text-white px-8 py-3.5 rounded-[100px] text-[18px] font-ibm-plex-arabic mt-4 transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95">
               احجز جلسة تشخيص مجانية
             </a>
           </FadeUp>
@@ -537,12 +554,12 @@ export default function App() {
           <div className="flex flex-col lg:flex-row items-start justify-between gap-10">
             {/* Links */}
             <div className="flex flex-col gap-3 items-start">
-              <p className="font-['Zain:ExtraBold'] text-[#1d1330] text-[18px]">الروابط الأساسية</p>
+              <p className="font-ibm-plex-arabic text-[#1d1330] text-[18px]">الروابط الأساسية</p>
              {footerLinks.map((link) => (
   <a
     key={link.label}
     href={link.href}
-    className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] transition-colors hover:text-[#45238f]"
+    className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] transition-colors hover:text-[#45238f]"
   >
     {link.label}
   </a>
@@ -551,25 +568,56 @@ export default function App() {
 
             {/* Contact */}
             <div className="flex flex-col gap-3 items-start">
-              <p className="font-['Zain:ExtraBold'] text-[#1d1330] text-[18px]">التواصل والشراكة</p>
-                {["طلب حجز موعد", "شروط ومعايير القبول", "البريد الإلكتروني للتعاونية", "تواصل مباشر عبر الواتساب"].map((link) => (
-                  <a key={link} href={link === "شروط ومعايير القبول" ? "#" : contactFormHref} className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] transition-colors hover:text-[#45238f]">
+              <p className="font-ibm-plex-arabic text-[#1d1330] text-[18px]">التواصل والشراكة</p>
+                {["طلب حجز موعد", "شروط ومعايير القبول", "taawniyati.system@gmail.com", "تواصل مباشر عبر الواتساب"].map((link) => (
+                  <a key={link} href={link === "شروط ومعايير القبول" ? "#" : link === "taawniyati.system@gmail.com" ? "mailto:taawniyati.system@gmail.com" : contactFormHref} className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] transition-colors hover:text-[#45238f]">
                   {link}
+                  
                 </a>
               ))}
+              <div className="flex self-start items-center gap-3 text-[#5e5274]">
+                <p className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] leading-[1.5] text-right max-w-[360px]">
+                وسائل التواصل الاجتماعي                
+                </p>
+                <a
+                  href="https://www.instagram.com/taawniyati.maroc?stkn=MXJ5OXlnNXNqbW5rdQ=="
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="إنستغرام تعاونيتي"
+                  className="transition-colors hover:text-[#45238f]"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none" />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61595105036474"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="فيسبوك تعاونيتي"
+                  className="transition-colors hover:text-[#45238f]"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
+                    <path d="M13.4 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.6 1.6-1.6h1.7V3.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.3H7.2v3.2H10V21h3.4Z" />
+                  </svg>
+                </a>
+              </div>
             </div>
              {/* Brand */}
             <div className="relative w-full lg:w-[360px] flex flex-col items-right">
-              <LazyImage eager src={imgLogo} alt="تعاونيتي" className="w-[180px] h-[100px] object-cover " />
-              <p className="font-['Zain:ExtraBold'] text-[#5e5274] text-[15px] md:text-[16px] leading-[1.5] text-right max-w-[360px]">
+              <LazyImage src={imgLogo} alt="تعاونيتي" className="w-[180px] h-[100px] object-cover " />
+              <p className="font-ibm-plex-arabic text-[#5e5274] text-[15px] md:text-[16px] leading-[1.5] text-right max-w-[360px]">
                 منصة وخدمة وطنية ملتزمة بتأطير وتحديث تعاونيات الإنتاج الحرفي والغذائي في المغرب لتقديم قيمة أصيلة تليق بالمستهلك المغربي والعالمي.
               </p>
+              
             </div>
           </div>
 
           <div className="bg-[#e2dcef] h-px w-full" />
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-['Zain:ExtraBold'] text-[14px] md:text-[15px]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-ibm-plex-arabic text-[14px] md:text-[15px]">
             <p className="text-[#5e5274] text-right">
               © ٢٠٢٦ تعاونيتي. جميع الحقوق محفوظة ومحمية بموجب القوانين المغربية.
             </p>
@@ -582,6 +630,19 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      <a
+        href="https://wa.me/212767371688"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="تواصل عبر واتساب على الرقم 0767371688"
+        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 font-ibm-plex-arabic text-sm text-white shadow-lg transition hover:scale-105 hover:bg-[#20bd5a] sm:bottom-6 sm:right-6"
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
+          <path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6a12 12 0 0 0 5.7 1.4h.1c6.5 0 11.8-5.3 11.8-11.9 0-3.2-1.2-6.1-3.4-8.4ZM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 0 1-1.5-5.3 9.9 9.9 0 1 1 9.8 9.9Zm5.4-7.4c-.3-.2-1.7-.9-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6-.1-.2-.7-1.6-1-2.2-.2-.5-.5-.5-.7-.5H7.9c-.3 0-.6.1-.8.4-.3.3-1 1-.1 2.5.8 1.5 1.1 2 2.2 3.2 1.1 1.2 2.4 2 3.4 2.4 1 .4 1.5.5 2 .4.7-.1 1.7-.7 1.9-1.3.2-.6.2-1.1.1-1.2-.1-.2-.3-.3-.6-.4Z" />
+        </svg>
+        <span>0767371688</span>
+      </a>
     </div>
   );
 }

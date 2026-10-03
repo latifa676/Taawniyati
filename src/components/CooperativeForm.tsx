@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 
-const whatsappNumber = "212701276075";
+const whatsappNumber = "21267371688";
 
 const cities = [
   "الرباط",
@@ -178,9 +178,9 @@ function CooperativeForm() {
     <section id="contact-form" className="scroll-mt-28 bg-[#f7f5fa] px-5 py-16 md:px-8 md:py-20" dir="rtl">
       <div className="mx-auto max-w-[960px]">
         <div className="mb-8 text-right md:mb-10">
-          <p className="mb-2 font-['Zain:ExtraBold'] text-[17px] text-[#caa320]">خطوة نحو نمو تعاونيتكم</p>
-          <h2 className="font-['Zain:ExtraBold'] text-[32px] leading-tight text-[#45238f] md:text-[40px]">سجّلوا تعاونيتكم</h2>
-          <p className="mt-3 max-w-[680px] font-['Zain:ExtraBold'] text-[17px] leading-relaxed text-[#5e5274]">
+          <p className="mb-2 font-ibm-plex-arabic text-[17px] text-[#caa320]">خطوة نحو نمو تعاونيتكم</p>
+          <h2 className="font-zain-title text-[32px] leading-tight text-[#45238f] md:text-[40px]">سجّلوا تعاونيتكم</h2>
+          <p className="mt-3 max-w-[680px] font-ibm-plex-arabic text-[17px] leading-relaxed text-[#5e5274]">
             اتركوا بياناتكم وسيتواصل معكم فريق تعاونيتي لمناقشة احتياجاتكم.
           </p>
         </div>
@@ -188,26 +188,26 @@ function CooperativeForm() {
         <form onSubmit={handleSubmit} noValidate className="rounded-2xl border border-[#e5e0ed] bg-white p-5 shadow-[0_12px_36px_rgba(31,19,48,0.06)] md:p-9">
           <div className="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
             <div>
-              <label htmlFor="cooperativeName" className="font-['Zain:ExtraBold'] text-[16px] text-[#1f1f1f]">إسم التعاونية <span className="text-[#caa320]">*</span></label>
+              <label htmlFor="cooperativeName" className="font-ibm-plex-arabic text-[16px] text-[#1f1f1f]">إسم التعاونية <span className="text-[#caa320]">*</span></label>
               <input id="cooperativeName" name="cooperativeName" autoComplete="organization" value={values.cooperativeName} onChange={(event) => updateField("cooperativeName", event.target.value)} onBlur={() => markTouched("cooperativeName")} maxLength={100} aria-invalid={Boolean(errors.cooperativeName)} aria-describedby={errors.cooperativeName ? "cooperativeName-error" : undefined} className={fieldClass("cooperativeName")} placeholder="مثال: تعاونية النور" />
               {renderError("cooperativeName")}
             </div>
 
             <div>
-              <label htmlFor="managerName" className="font-['Zain:ExtraBold'] text-[16px] text-[#1f1f1f]">إسم المسؤول <span className="text-[#caa320]">*</span></label>
+              <label htmlFor="managerName" className="font-ibm-plex-arabic text-[16px] text-[#1f1f1f]">إسم المسؤول <span className="text-[#caa320]">*</span></label>
               <input id="managerName" name="managerName" autoComplete="name" value={values.managerName} onChange={(event) => updateField("managerName", event.target.value)} onBlur={() => markTouched("managerName")} maxLength={80} aria-invalid={Boolean(errors.managerName)} aria-describedby={errors.managerName ? "managerName-error" : undefined} className={fieldClass("managerName")} placeholder="الإسم الكامل للمسؤول" />
               {renderError("managerName")}
             </div>
 
             <div>
-              <label htmlFor="phone" className="font-['Zain:ExtraBold'] text-[16px] text-[#1f1f1f]">رقم الهاتف <span className="text-[#caa320]">*</span></label>
+              <label htmlFor="phone" className="font-ibm-plex-arabic text-[16px] text-[#1f1f1f]">رقم الهاتف <span className="text-[#caa320]">*</span></label>
               <input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" dir="ltr" value={values.phone} onChange={(event) => updateField("phone", event.target.value)} onBlur={() => markTouched("phone")} maxLength={18} aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : "phone-hint"} className={`${fieldClass("phone")} text-left`} placeholder="06XXXXXXXX أو +2126XXXXXXXX" />
               {renderError("phone")}
               {!errors.phone && <p id="phone-hint" className="mt-1.5 text-right text-sm text-[#777181]">مثال: 0612345678 أو +212612345678</p>}
             </div>
 
             <div>
-              <label htmlFor="city" className="font-['Zain:ExtraBold'] text-[16px] text-[#1f1f1f]">المدينة <span className="text-[#caa320]">*</span></label>
+              <label htmlFor="city" className="font-ibm-plex-arabic text-[16px] text-[#1f1f1f]">المدينة <span className="text-[#caa320]">*</span></label>
               <select id="city" name="city" value={values.city} onChange={(event) => updateField("city", event.target.value)} onBlur={() => markTouched("city")} aria-invalid={Boolean(errors.city)} aria-describedby={errors.city ? "city-error" : undefined} className={fieldClass("city")}>
                 <option value="">اختر المدينة</option>
                 {cities.map((city) => <option key={city} value={city}>{city}</option>)}
@@ -216,7 +216,7 @@ function CooperativeForm() {
             </div>
 
             <div className="md:col-span-2">
-              <label htmlFor="sector" className="font-['Zain:ExtraBold'] text-[16px] text-[#1f1f1f]">مجال التعاونية <span className="text-[#caa320]">*</span></label>
+              <label htmlFor="sector" className="font-ibm-plex-arabic text-[16px] text-[#1f1f1f]">مجال التعاونية <span className="text-[#caa320]">*</span></label>
               <select id="sector" name="sector" value={values.sector} onChange={(event) => updateField("sector", event.target.value)} onBlur={() => markTouched("sector")} aria-invalid={Boolean(errors.sector)} aria-describedby={errors.sector ? "sector-error" : undefined} className={fieldClass("sector")}>
                 <option value="">اختر مجال التعاونية</option>
                 {sectors.map((sector) => <option key={sector} value={sector}>{sector}</option>)}
@@ -224,7 +224,7 @@ function CooperativeForm() {
               {renderError("sector")}
               {values.sector === "أخرى" && (
                 <div className="mt-4">
-                  <label htmlFor="otherSector" className="font-['Zain:ExtraBold'] text-[16px] text-[#1f1f1f]">
+                  <label htmlFor="otherSector" className="font-ibm-plex-arabic text-[16px] text-[#1f1f1f]">
                     يرجى تحديد المجال <span className="text-[#caa320">*</span>
                   </label>
                   <input
@@ -246,11 +246,11 @@ function CooperativeForm() {
           </div>
 
           <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <button type="submit" disabled={submitting} className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#caa320] px-8 py-3 font-['Zain:ExtraBold'] text-[18px] text-white transition duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-[0.98] disabled:cursor-wait disabled:opacity-65 sm:w-auto">
+            <button type="submit" disabled={submitting} className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#caa320] px-8 py-3 font-ibm-plex-arabic text-[18px] text-white transition duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-[0.98] disabled:cursor-wait disabled:opacity-65 sm:w-auto">
               {submitting ? "جاري الإرسال..." : "إرسال الطلب"}
             </button>
             {submitted && (
-              <div role="status" className="text-right font-['Zain:ExtraBold'] text-[#287a50]">
+              <div role="status" className="text-right font-ibm-plex-arabic text-[#287a50]">
                 <p>تم تجهيز طلبكم في واتساب</p>
                 <p className="text-[15px]">اضغطوا على إرسال لإتمام الطلب.</p>
                 <a href={whatsappUrl} target="_blank" rel="noreferrer" className="mt-1 inline-block text-[15px] text-[#45238f] underline underline-offset-2">
